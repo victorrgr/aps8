@@ -10,9 +10,10 @@ spring:
     password: postgres
 
 application:
+  default-password: admin
   security:
     jwt:
-    secret-key: lTua10BsvzyG53ArO6rKQhT4SRi0suMIpQ2MDRHnFq6eaOa2P29c031lw78wCLr
-    expiration: 86400000 # 1 day
-    refresh-token:
-      expiration: 604800000 # 7 days
+      secret-key: lTua10BsvzyG53ArO6rKQhT4SRi0suMIpQ2MDRHnFq6eaOa2P29c031lw78wCLr
+      expiration: 86400000 # 1 day
+      refresh-token:
+        expiration: 604800000 # 7 days
