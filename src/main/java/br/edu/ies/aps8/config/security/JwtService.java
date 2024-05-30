@@ -39,24 +39,15 @@ public class JwtService {
         return generateToken(new HashMap<>(), userDetails);
     }
 
-    public JwtToken generateToken(
-            Map<String, Object> extraClaims,
-            UserDetails userDetails
-    ) {
+    public JwtToken generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         return buildToken(extraClaims, userDetails, jwtExpiration);
     }
 
-    public JwtToken generateRefreshToken(
-            UserDetails userDetails
-    ) {
+    public JwtToken generateRefreshToken(UserDetails userDetails) {
         return buildToken(new HashMap<>(), userDetails, refreshExpiration);
     }
 
-    private JwtToken buildToken(
-            Map<String, Object> extraClaims,
-            UserDetails userDetails,
-            long expiration
-    ) {
+    private JwtToken buildToken(Map<String, Object> extraClaims, UserDetails userDetails, long expiration) {
         long currentMillis = System.currentTimeMillis();
         long expirationMillis = currentMillis + expiration;
         String token = Jwts
@@ -64,7 +55,6 @@ public class JwtService {
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(currentMillis))
-                .setIssuer("concord.com")
                 .setExpiration(new Date(expirationMillis))
                 .signWith(SignatureAlgorithm.HS512, secretKey)
                 .compact();
@@ -73,13 +63,6 @@ public class JwtService {
                 .issuedAt(LocalDateTime.ofInstant(Instant.ofEpochMilli(currentMillis), ZoneId.systemDefault()))
                 .expiresIn(LocalDateTime.ofInstant(Instant.ofEpochMilli(expirationMillis), ZoneId.systemDefault()))
                 .build();
-//        String token = Jwts.builder()
-//                .subject(username)
-//                .issuedAt(new Date())
-//                .issuer("concord.com")
-//                .expiration(new Date())
-//                .signWith(new SecretKeySpec(Global.SECRET.getBytes(), "HmacSHA512"))
-//                .compact();
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
