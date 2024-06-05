@@ -15,4 +15,15 @@ public class Trip {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TRIP_GENERATOR")
     private Long id;
+    /**
+     * liters
+     */
+    private double fuelAmount;
+    /**
+     * kilometers
+     */
+    private double distance;
+    @ManyToOne
+    @JoinColumn(name = "vehicle_id", referencedColumnName = "id")
+    private Vehicle vehicle;
 }

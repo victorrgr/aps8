@@ -9,6 +9,7 @@ import br.edu.ies.aps8.util.GallonToMJConverter;
 import br.edu.ies.aps8.util.MMBtuToMJConverter;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,7 @@ import static br.edu.ies.aps8.util.SIConverter.KG_CO2_MJ;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class SetupComponent {
     private final UserRepository userRepository;
     private final FuelTypeRepository fuelTypeRepository;
@@ -37,6 +39,7 @@ public class SetupComponent {
 
     private void setupFuelTypes() {
         if (!fuelTypeRepository.findAll().isEmpty()) {
+            log.info("Fuel Types already setup");
             return;
         }
         var fuelTypes = List.of(
@@ -62,10 +65,12 @@ public class SetupComponent {
                         .build()
         );
         fuelTypes.forEach(fuelTypeRepository::save);
+        log.info("Fuel Types successfully setup");
     }
 
     private void setupUser() {
         if (!userRepository.findByRoles(Role.ADMIN).isEmpty()) {
+            log.info("Admin User already setup");
             return;
         }
         String encodedPassword = passwordEncoder.encode(defaultPassword);
@@ -74,6 +79,7 @@ public class SetupComponent {
                 .password(encodedPassword)
                 .roles(List.of(Role.ADMIN))
                 .build());
+        log.info("Admin User successfully setup");
     }
 
 }

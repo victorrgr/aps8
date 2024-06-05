@@ -7,7 +7,7 @@ Este projeto é o projeto de APS de 8ª Fase ...
 Criar um banco de dados postgres.
 
 ```sql
-CREATE DATABASE aps7;
+CREATE DATABASE aps8;
 ```
 
 Criar os schemas necessários no banco.
