@@ -12,7 +12,6 @@ import java.util.List;
 @Entity
 @Table(name = "user", schema = "security")
 @SequenceGenerator(name = "USER_GENERATOR", schema = "security", sequenceName = "SEQ_USER", allocationSize = 1)
-
 @Getter
 @Setter
 @Builder
