@@ -38,5 +38,5 @@ public class Vehicle {
      */
     private double oilChangeInterval;
     private double weight;
-
+    private double fuelCapacity;
 }

@@ -21,10 +21,14 @@ public class ReportController {
         return tripRepository.findAll().stream()
                 .map(trip -> {
                     Map<String, Object> report = new LinkedHashMap<>();
+                    report.put("tripId", trip.getId());
+                    report.put("fuelAmount", trip.getFuelAmount());
+                    report.put("distance", trip.getDistance());
                     double fuelEfficiency = trip.getFuelAmount() / trip.getDistance();
                     report.put("fuelEfficiency", fuelEfficiency);
                     double emissionFactor = trip.getVehicle().getFuelType().getEmissionFactor();
-                    report.put("co2Emission", (emissionFactor * trip.getFuelAmount()) + "kg CO2");
+                    report.put("co2Emission", emissionFactor * trip.getFuelAmount());
+                    report.put("unit", "kg CO2");
                     return report;
                 })
                 .toList();
@@ -34,4 +38,5 @@ public class ReportController {
     public String getHello() {
         return "Report Week";
     }
+
 }
