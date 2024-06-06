@@ -23,6 +23,8 @@ public class ReportController {
                     Map<String, Object> report = new LinkedHashMap<>();
                     double fuelEfficiency = trip.getFuelAmount() / trip.getDistance();
                     report.put("fuelEfficiency", fuelEfficiency);
+                    double emissionFactor = trip.getVehicle().getFuelType().getEmissionFactor();
+                    report.put("co2Emission", (emissionFactor * trip.getFuelAmount()) + "kg CO2");
                     return report;
                 })
                 .toList();

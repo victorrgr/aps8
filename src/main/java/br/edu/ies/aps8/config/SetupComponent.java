@@ -1,12 +1,11 @@
 package br.edu.ies.aps8.config;
 
-import br.edu.ies.aps8.model.FuelType;
-import br.edu.ies.aps8.model.Role;
-import br.edu.ies.aps8.model.User;
+import br.edu.ies.aps8.model.*;
 import br.edu.ies.aps8.repository.FuelTypeRepository;
 import br.edu.ies.aps8.repository.UserRepository;
-import br.edu.ies.aps8.util.GallonToMJConverter;
+import br.edu.ies.aps8.util.GallonToLiterConverter;
 import br.edu.ies.aps8.util.MMBtuToMJConverter;
+import br.edu.ies.aps8.util.SIConverter;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,16 +15,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static br.edu.ies.aps8.util.SIConverter.KG_CO2_MJ;
-
 @Component
 @RequiredArgsConstructor
 @Slf4j
 public class SetupComponent {
     private final UserRepository userRepository;
     private final FuelTypeRepository fuelTypeRepository;
-    private final GallonToMJConverter gallonToMJConverter;
-    private final MMBtuToMJConverter mmBtuToMJConverter;
     private final PasswordEncoder passwordEncoder;
 
     @Value("${application.default-password}")
@@ -43,25 +38,29 @@ public class SetupComponent {
             return;
         }
         var fuelTypes = List.of(
-                FuelType.builder()
-                        .name("Natural Gas")
-                        .emissionFactor(mmBtuToMJConverter.convert(53.1))
-                        .unit(KG_CO2_MJ)
-                        .build(),
+//                FuelType.builder()
+//                        .name("Natural Gas")
+//                        .emissionFactor(mmBtuToMJConverter.convert(53.1))
+//                        .emissionFactorUnit(EmissionFactorUnit.KG_CO2_MJ)
+//                        .unit(Unit.CUBIC_METER)
+//                        .build(),
                 FuelType.builder()
                         .name("Gasoline")
-                        .emissionFactor(gallonToMJConverter.convert(8.89))
-                        .unit(KG_CO2_MJ)
+                        .emissionFactor(8.78 / SIConverter.GALLON_TO_LITER)
+                        .emissionFactorUnit(EmissionFactorUnit.KG_CO2_L)
+                        .unit(Unit.LITER)
                         .build(),
                 FuelType.builder()
                         .name("Diesel")
-                        .emissionFactor(gallonToMJConverter.convert(10.16))
-                        .unit(KG_CO2_MJ)
+                        .emissionFactor(10.21 / SIConverter.GALLON_TO_LITER)
+                        .emissionFactorUnit(EmissionFactorUnit.KG_CO2_L)
+                        .unit(Unit.LITER)
                         .build(),
                 FuelType.builder()
                         .name("Ethanol")
-                        .emissionFactor(gallonToMJConverter.convert(5.67))
-                        .unit(KG_CO2_MJ)
+                        .emissionFactor(5.75 / SIConverter.GALLON_TO_LITER)
+                        .emissionFactorUnit(EmissionFactorUnit.KG_CO2_L)
+                        .unit(Unit.LITER)
                         .build()
         );
         fuelTypes.forEach(fuelTypeRepository::save);

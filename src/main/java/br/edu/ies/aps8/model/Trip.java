@@ -3,6 +3,8 @@ package br.edu.ies.aps8.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "trip", schema = "general")
 @SequenceGenerator(name = "TRIP_GENERATOR", schema = "security", sequenceName = "SEQ_TRIP", allocationSize = 1)
@@ -23,6 +25,7 @@ public class Trip {
      * kilometers
      */
     private double distance;
+    private LocalDateTime date;
     @ManyToOne
     @JoinColumn(name = "vehicle_id", referencedColumnName = "id")
     private Vehicle vehicle;

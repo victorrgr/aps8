@@ -18,13 +18,6 @@ public class VehicleController {
     private final FuelTypeRepository fuelTypeRepository;
 
     // TODO: Possibly create filters
-    @GetMapping
-    public List<VehicleResponse> getVehicle() {
-        return vehicleRepository.findAll().stream()
-                .map(VehicleController::mapToResponse)
-                .toList();
-    }
-
     private static VehicleResponse mapToResponse(Vehicle vehicle) {
         return VehicleResponse.builder()
                 .id(vehicle.getId())
@@ -37,18 +30,26 @@ public class VehicleController {
                 .build();
     }
 
+    @GetMapping
+    public List<VehicleResponse> getVehicle() {
+        return vehicleRepository.findAll().stream()
+                .map(VehicleController::mapToResponse)
+                .toList();
+    }
+
     @PostMapping
-    public VehicleResponse createVehicle(@RequestBody VehicleRequest vehicle) {
-        Vehicle vehicleEntity = Vehicle.builder()
-                .name(vehicle.getName())
-                .fuelType(fuelTypeRepository.getReferenceById(vehicle.getFuelTypeId()))
-                .fuelConsuption(vehicle.getFuelConsuption())
-                .oilType(vehicle.getOilType())
-                .oilChangeInterval(vehicle.getOilChangeInterval())
-                .weight(vehicle.getWeight())
+    public VehicleResponse createVehicle(@RequestBody VehicleRequest vehicleRequest) {
+        Vehicle vehicle = Vehicle.builder()
+                .name(vehicleRequest.getName())
+                .fuelType(fuelTypeRepository.findById(vehicleRequest.getFuelTypeId())
+                        .orElseThrow(() -> new IllegalArgumentException("Fuel type not found")))
+                .fuelConsuption(vehicleRequest.getFuelConsuption())
+                .oilType(vehicleRequest.getOilType())
+                .oilChangeInterval(vehicleRequest.getOilChangeInterval())
+                .weight(vehicleRequest.getWeight())
                 .build();
-        vehicleEntity = vehicleRepository.save(vehicleEntity);
-        return mapToResponse(vehicleEntity);
+        vehicle = vehicleRepository.save(vehicle);
+        return mapToResponse(vehicle);
     }
 
 }

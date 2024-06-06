@@ -30,7 +30,7 @@ public class Vehicle {
     private double fuelConsuption;
     // TODO: Possibly create an entity with these pre-defined
     /**
-     * SYNTHETIC, SEMI_SYNTHETIC, CONVENTIONAL
+         * SYNTHETIC, SEMI_SYNTHETIC, CONVENTIONAL
      */
     private String oilType;
     /**
