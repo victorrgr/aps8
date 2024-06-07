@@ -24,19 +24,15 @@ public class Vehicle {
     @JoinColumn(name = "fuel_type_id", referencedColumnName = "id")
     private FuelType fuelType;
     // TODO: Maybe remove this and base the fuelConsuption on the
-    /**
-     * km/l
-     */
-    private double fuelConsuption;
     // TODO: Possibly create an entity with these pre-defined
+    private OilType oilType;
     /**
-         * SYNTHETIC, SEMI_SYNTHETIC, CONVENTIONAL
-     */
-    private String oilType;
-    /**
-     * km
+     * kilometers
      */
     private double oilChangeInterval;
     private double weight;
+    /**
+     * liters
+     */
     private double fuelCapacity;
 }

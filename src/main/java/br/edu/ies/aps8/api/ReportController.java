@@ -1,14 +1,14 @@
 package br.edu.ies.aps8.api;
 
+import br.edu.ies.aps8.dto.ReportResponse;
+import br.edu.ies.aps8.model.FuelType;
 import br.edu.ies.aps8.repository.TripRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/report")
@@ -17,18 +17,19 @@ public class ReportController {
     private final TripRepository tripRepository;
 
     @GetMapping
-    public List<Map<String, Object>> getReport() {
+    public List<ReportResponse> getReport() {
         return tripRepository.findAll().stream()
                 .map(trip -> {
-                    Map<String, Object> report = new LinkedHashMap<>();
-                    report.put("tripId", trip.getId());
-                    report.put("fuelAmount", trip.getFuelAmount());
-                    report.put("distance", trip.getDistance());
-                    double fuelEfficiency = trip.getFuelAmount() / trip.getDistance();
-                    report.put("fuelEfficiency", fuelEfficiency);
-                    double emissionFactor = trip.getVehicle().getFuelType().getEmissionFactor();
-                    report.put("co2Emission", emissionFactor * trip.getFuelAmount());
-                    report.put("unit", "kg CO2");
+                    FuelType fuelType = trip.getVehicle().getFuelType();
+                    ReportResponse report = ReportResponse.builder()
+                            .tripId(trip.getId())
+                            .fuelAmount(trip.getFuelAmount())
+                            .distance(trip.getDistance())
+                            .fuelEfficiency(trip.getDistance() / trip.getFuelAmount())
+                            .co2Emission(fuelType.getEmissionFactor() * trip.getFuelAmount())
+                            .build();
+                    report.setFuelEfficiencyStr("%s km/l".formatted(report.getFuelEfficiency()));
+                    report.setCo2EmissionStr("%s kg".formatted(report.getCo2Emission()));
                     return report;
                 })
                 .toList();
