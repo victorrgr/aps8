@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 
 @Data
 @Builder
@@ -17,10 +19,10 @@ public class TripResponse {
      * liters
      */
     private double fuelAmount;
-    // TODO: Maybe create another field that has this field plus a description of the unit
     /**
      * kilometers
      */
     private double distance;
+    private LocalDateTime date;
     private Vehicle vehicle;
 }
