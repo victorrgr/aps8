@@ -1,4 +1,4 @@
-package br.edu.ies.aps8.dto;
+package br.edu.ies.aps8.dto.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

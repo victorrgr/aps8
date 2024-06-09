@@ -1,4 +1,4 @@
-package br.edu.ies.aps8.dto;
+package br.edu.ies.aps8.dto.auth;
 
 import br.edu.ies.aps8.model.Role;
 import lombok.Builder;

@@ -1,6 +1,5 @@
 package br.edu.ies.aps8.api;
 
-import br.edu.ies.aps8.dto.RawReportResponse;
 import br.edu.ies.aps8.dto.ReportResponse;
 import br.edu.ies.aps8.mapper.VehicleMapper;
 import br.edu.ies.aps8.model.*;
@@ -65,24 +64,6 @@ public class ReportController {
                 .oilType(vehicle.getOilType())
                 .tripsAmount(trips.size())
                 .build();
-    }
-
-    private static RawReportResponse getReportResponse(Trip trip) {
-        FuelType fuelType = trip.getVehicle().getFuelType();
-        return RawReportResponse.builder()
-                .tripId(trip.getId())
-                .fuelAmount(trip.getFuelAmount())
-                .distance(trip.getDistance())
-                .fuelEfficiency(trip.getDistance() / trip.getFuelAmount())
-                .co2Emission(fuelType.getEmissionFactor() * trip.getFuelAmount())
-                .build();
-    }
-
-    @GetMapping("/raw")
-    public List<RawReportResponse> getReportRaw() {
-        return tripRepository.findAll().stream()
-                .map(ReportController::getReportResponse)
-                .toList();
     }
 
 }

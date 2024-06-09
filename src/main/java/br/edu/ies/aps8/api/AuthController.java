@@ -1,9 +1,9 @@
 package br.edu.ies.aps8.api;
 
 import br.edu.ies.aps8.config.security.JwtService;
-import br.edu.ies.aps8.dto.JwtToken;
-import br.edu.ies.aps8.dto.SignInRequest;
-import br.edu.ies.aps8.dto.SignInResponse;
+import br.edu.ies.aps8.dto.auth.JwtToken;
+import br.edu.ies.aps8.dto.auth.SignInRequest;
+import br.edu.ies.aps8.dto.auth.SignInResponse;
 import br.edu.ies.aps8.exception.InvalidCredentialsException;
 import br.edu.ies.aps8.repository.UserRepository;
 import jakarta.servlet.http.Cookie;

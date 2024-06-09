@@ -39,3 +39,5 @@ Com o java 21 instalado rodar os comandos abaixo para instalar e rodar a aplica�
 ./mvnw install
 ./mvnw spring-boot:run
 ```
+
+Abrir o caminho `http://localhost:8080/swagger` no navegador para encontrar a documentação.

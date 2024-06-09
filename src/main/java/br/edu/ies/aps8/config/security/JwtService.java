@@ -1,6 +1,6 @@
 package br.edu.ies.aps8.config.security;
 
-import br.edu.ies.aps8.dto.JwtToken;
+import br.edu.ies.aps8.dto.auth.JwtToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
