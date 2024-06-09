@@ -2,15 +2,16 @@ package br.edu.ies.aps8.api;
 
 import br.edu.ies.aps8.dto.RawReportResponse;
 import br.edu.ies.aps8.dto.ReportResponse;
-import br.edu.ies.aps8.model.FuelType;
-import br.edu.ies.aps8.model.Trip;
-import br.edu.ies.aps8.model.Vehicle;
+import br.edu.ies.aps8.model.*;
 import br.edu.ies.aps8.repository.TripRepository;
+import br.edu.ies.aps8.util.ConversionService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -18,8 +19,10 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/report")
 @RequiredArgsConstructor
+@Slf4j
 public class ReportController {
     private final TripRepository tripRepository;
+    private final ConversionService conversionService;
 
     // TODO: Maybe create a filter to limit the start and end date
     @GetMapping
@@ -41,18 +44,24 @@ public class ReportController {
                     report.calculateDescriptions();
                     return report;
                 })
+                .sorted(Comparator.comparing(a -> a.getVehicle().getName()))
                 .toList();
     }
 
-    private static ReportResponse makeReport(Vehicle vehicle, List<Trip> trips, Trip trip) {
+    private ReportResponse makeReport(Vehicle vehicle, List<Trip> trips, Trip trip) {
+        FuelType fuelType = vehicle.getFuelType();
+        double emissionFactor = conversionService.convert(fuelType.getEmissionFactor(), fuelType.getEmissionFactorUnit().getUnit(), Unit.LITER);
+        double fuelEfficiency = trip.getDistance() / trip.getFuelAmount();
         return ReportResponse.builder()
                 .vehicle(vehicle)
                 .startDate(trips.getFirst().getDate())
                 .endDate(trips.getLast().getDate())
                 .fuelAmount(trip.getFuelAmount())
                 .distance(trip.getDistance())
-                .fuelEfficiency(trip.getDistance() / trip.getFuelAmount())
-                .co2Emission(vehicle.getFuelType().getEmissionFactor() * trip.getFuelAmount())
+                .fuelEfficiency(fuelEfficiency)
+                .co2Emission(trip.getFuelAmount() * emissionFactor)
+                .oilResidue(trip.getDistance() / vehicle.getOilChangeInterval())
+                .oilType(vehicle.getOilType())
                 .tripsAmount(trips.size())
                 .build();
     }

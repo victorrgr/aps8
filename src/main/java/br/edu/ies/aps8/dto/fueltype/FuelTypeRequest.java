@@ -1,7 +1,6 @@
 package br.edu.ies.aps8.dto.fueltype;
 
 import br.edu.ies.aps8.model.EmissionFactorUnit;
-import br.edu.ies.aps8.model.Unit;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
@@ -21,6 +20,4 @@ public class FuelTypeRequest {
     private Double emissionFactor;
     @NotNull(message = "Emission Factor Unit cannot be null")
     private EmissionFactorUnit emissionFactorUnit;
-    @NotNull(message = "Unit cannot be null")
-    private Unit unit;
 }

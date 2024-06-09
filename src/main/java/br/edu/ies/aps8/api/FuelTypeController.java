@@ -1,8 +1,11 @@
 package br.edu.ies.aps8.api;
 
 import br.edu.ies.aps8.dto.fueltype.FuelTypeRequest;
+import br.edu.ies.aps8.dto.fueltype.FuelTypeResponse;
+import br.edu.ies.aps8.mapper.FuelTypeMapper;
 import br.edu.ies.aps8.model.FuelType;
 import br.edu.ies.aps8.repository.FuelTypeRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,40 +16,37 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FuelTypeController {
     private final FuelTypeRepository fuelTypeRepository;
-
-    private FuelType mapToResponse(FuelType fuelType) {
-        return FuelType.builder()
-                .id(fuelType.getId())
-                .name(fuelType.getName())
-                .emissionFactor(fuelType.getEmissionFactor())
-                .unit(fuelType.getUnit())
-                .build();
-    }
-
-    @GetMapping
-    public List<FuelType> getFuelTypes() {
-        return fuelTypeRepository.findAll();
-    }
+    private final FuelTypeMapper fuelTypeMapper;
 
     @GetMapping("/{id}")
-    public FuelType getFuelType(@PathVariable Long id) {
+    public FuelType findById(@PathVariable Long id) {
         return fuelTypeRepository.findById(id)
                 .orElse(null);
     }
 
+    @GetMapping
+    public List<FuelTypeResponse> findAll() {
+        return fuelTypeRepository.findAll().stream()
+                .map(fuelTypeMapper::mapToResponse)
+                .toList();
+    }
+
     @PostMapping
-    public FuelType createFuelType(@RequestBody FuelTypeRequest fuelTypeRequest) {
-        FuelType fuelType = FuelType.builder()
-                .name(fuelTypeRequest.getName())
-                .emissionFactor(fuelTypeRequest.getEmissionFactor())
-                .unit(fuelTypeRequest.getUnit())
-                .build();
+    public FuelTypeResponse save(@Valid @RequestBody FuelTypeRequest fuelTypeRequest) {
+        FuelType fuelType = fuelTypeMapper.mapToModel(fuelTypeRequest);
         fuelType = fuelTypeRepository.save(fuelType);
-        return mapToResponse(fuelType);
+        return fuelTypeMapper.mapToResponse(fuelType);
+    }
+
+    @PostMapping("/batch")
+    public List<FuelTypeResponse> saveBatch(@RequestBody List<FuelTypeRequest> fuelTypeRequests) {
+        return fuelTypeRequests.stream()
+                .map(this::save)
+                .toList();
     }
 
     @DeleteMapping("/{id}")
-    public void deleteFuelType(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         FuelType fuelType = fuelTypeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Fuel type with id '%s' not found".formatted(id)));
         fuelTypeRepository.delete(fuelType);

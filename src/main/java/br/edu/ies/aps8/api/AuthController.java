@@ -1,7 +1,10 @@
 package br.edu.ies.aps8.api;
 
 import br.edu.ies.aps8.config.security.JwtService;
-import br.edu.ies.aps8.dto.*;
+import br.edu.ies.aps8.dto.JwtToken;
+import br.edu.ies.aps8.dto.SignInRequest;
+import br.edu.ies.aps8.dto.SignInResponse;
+import br.edu.ies.aps8.dto.SignUpRequest;
 import br.edu.ies.aps8.exception.InvalidCredentialsException;
 import br.edu.ies.aps8.model.Role;
 import br.edu.ies.aps8.model.User;
@@ -11,13 +14,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 import java.net.URLEncoder;
@@ -33,14 +38,6 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
-
-    @ExceptionHandler({InvalidCredentialsException.class})
-    public ResponseEntity<StandardResponse> handler(InvalidCredentialsException e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(StandardResponse.builder()
-                        .message(e.getMessage())
-                        .build());
-    }
 
     @PostMapping("/signin")
     public ResponseEntity<SignInResponse> singIn(@RequestBody SignInRequest signInRequest,
@@ -82,13 +79,11 @@ public class AuthController {
         if (userRepository.findByUsername(signUpRequest.getUsername()).isPresent()) {
             throw new InvalidCredentialsException("There's already an user with the informed username");
         }
-
         userRepository.save(User.builder()
                 .username(signUpRequest.getUsername())
                 .password(passwordEncoder.encode(signUpRequest.getPassword()))
                 .roles(List.of(Role.USER))
                 .build());
-
         return ResponseEntity.created(URI.create("/api/auth/signin"))
                 .build();
     }

@@ -1,5 +1,6 @@
 package br.edu.ies.aps8.dto.trip;
 
+import br.edu.ies.aps8.dto.vehicle.VehicleResponse;
 import br.edu.ies.aps8.model.Vehicle;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,5 +25,5 @@ public class TripResponse {
      */
     private double distance;
     private LocalDateTime date;
-    private Vehicle vehicle;
+    private VehicleResponse vehicle;
 }
