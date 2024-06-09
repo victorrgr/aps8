@@ -4,10 +4,7 @@ import br.edu.ies.aps8.config.security.JwtService;
 import br.edu.ies.aps8.dto.JwtToken;
 import br.edu.ies.aps8.dto.SignInRequest;
 import br.edu.ies.aps8.dto.SignInResponse;
-import br.edu.ies.aps8.dto.SignUpRequest;
 import br.edu.ies.aps8.exception.InvalidCredentialsException;
-import br.edu.ies.aps8.model.Role;
-import br.edu.ies.aps8.model.User;
 import br.edu.ies.aps8.repository.UserRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,10 +21,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -72,20 +67,6 @@ public class AuthController {
                 .issuedAt(jwtToken.getIssuedAt())
                 .expiresIn(jwtToken.getExpiresIn())
                 .build());
-    }
-
-    @PostMapping("/signup")
-    public ResponseEntity<Object> signUp(@RequestBody SignUpRequest signUpRequest) throws InvalidCredentialsException {
-        if (userRepository.findByUsername(signUpRequest.getUsername()).isPresent()) {
-            throw new InvalidCredentialsException("There's already an user with the informed username");
-        }
-        userRepository.save(User.builder()
-                .username(signUpRequest.getUsername())
-                .password(passwordEncoder.encode(signUpRequest.getPassword()))
-                .roles(List.of(Role.USER))
-                .build());
-        return ResponseEntity.created(URI.create("/api/auth/signin"))
-                .build();
     }
 
 }

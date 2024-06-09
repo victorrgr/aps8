@@ -19,8 +19,14 @@ CREATE SCHEMA security;
 CREATE SCHEMA general;
 ```
 
-(Opcional)
-Modificar a configuração do arquivo `aplication.yml` para `true` no caso de desejar registros de exemplo por padrão.
+(Opcional) Modificar a senha padrão.
+
+```yml
+application:
+  default-password: <senha>
+```
+
+(Opcional) Modificar a configuração do arquivo `aplication.yml` para `true` no caso de desejar registros de exemplo por padrão.
 
 ```yml
 application:
