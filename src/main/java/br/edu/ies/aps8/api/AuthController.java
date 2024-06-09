@@ -6,6 +6,7 @@ import br.edu.ies.aps8.dto.auth.SignInRequest;
 import br.edu.ies.aps8.dto.auth.SignInResponse;
 import br.edu.ies.aps8.exception.InvalidCredentialsException;
 import br.edu.ies.aps8.repository.UserRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,7 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
+    @SecurityRequirements
     @PostMapping("/signin")
     public ResponseEntity<SignInResponse> singIn(@RequestBody SignInRequest signInRequest,
                                                  HttpServletResponse httpResponse) throws InvalidCredentialsException {

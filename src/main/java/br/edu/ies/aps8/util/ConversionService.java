@@ -3,6 +3,7 @@ package br.edu.ies.aps8.util;
 import br.edu.ies.aps8.model.Unit;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -25,7 +26,7 @@ public class ConversionService {
         }
         Map<Unit, Double> fromConversions = conversionMap.get(from);
         if (fromConversions != null && fromConversions.containsKey(to)) {
-            return value * fromConversions.get(to);
+            return BigDecimal.valueOf(value).multiply(BigDecimal.valueOf(fromConversions.get(to))).doubleValue();
         }
         throw new IllegalArgumentException("Conversion not supported.");
     }

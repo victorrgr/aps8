@@ -18,7 +18,13 @@ public class VehicleMapper {
                 .name(vehicle.getName())
                 .fuelType(vehicle.getFuelType())
                 .oilType(vehicle.getOilType())
+                .oilCapacity(vehicle.getOilCapacity())
                 .oilChangeInterval(vehicle.getOilChangeInterval())
+                .batteryCapacity(vehicle.getBatteryCapacity())
+                .batteryChangeInterval(vehicle.getBatteryChangeInterval())
+                .tireCapacity(vehicle.getTireCapacity())
+                .tireChangeInterval(vehicle.getTireChangeInterval())
+                .fuelCapacity(vehicle.getFuelCapacity())
                 .weight(vehicle.getWeight())
                 .build();
     }
@@ -29,7 +35,13 @@ public class VehicleMapper {
                 .fuelType(fuelTypeRepository.findById(vehicleRequest.getFuelTypeId())
                         .orElseThrow(() -> new IllegalArgumentException("Fuel type not found")))
                 .oilType(vehicleRequest.getOilType())
+                .oilCapacity(vehicleRequest.getOilCapacity())
                 .oilChangeInterval(vehicleRequest.getOilChangeInterval())
+                .batteryCapacity(vehicleRequest.getBatteryCapacity())
+                .batteryChangeInterval(vehicleRequest.getBatteryChangeInterval())
+                .tireCapacity(vehicleRequest.getTireCapacity())
+                .tireChangeInterval(vehicleRequest.getTireChangeInterval())
+                .fuelCapacity(vehicleRequest.getFuelCapacity())
                 .weight(vehicleRequest.getWeight())
                 .build();
     }

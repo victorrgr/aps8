@@ -39,6 +39,17 @@ public class VehicleController {
         return vehicleMapper.mapToResponse(vehicle);
     }
 
+    @PutMapping("/{id}")
+    public VehicleResponse update(@PathVariable Long id, @Valid @RequestBody VehicleRequest vehicleRequest) {
+        if (!vehicleRepository.existsById(id)) {
+            throw new IllegalArgumentException("Vehicle not found");
+        }
+        Vehicle vehicle = vehicleMapper.mapToModel(vehicleRequest);
+        vehicle.setId(id);
+        vehicle = vehicleRepository.save(vehicle);
+        return vehicleMapper.mapToResponse(vehicle);
+    }
+
     @PostMapping("/batch")
     public List<VehicleResponse> saveBatch(@Valid @RequestBody List<VehicleRequest> vehicleRequests) {
         return vehicleRequests.stream()

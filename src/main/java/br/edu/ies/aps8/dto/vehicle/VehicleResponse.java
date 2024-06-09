@@ -16,6 +16,12 @@ public class VehicleResponse {
     private String name;
     private FuelType fuelType;
     private OilType oilType;
+    private double oilCapacity;
     private double oilChangeInterval;
+    private double tireCapacity;
+    private double tireChangeInterval;
+    private double batteryChangeInterval;
+    private double batteryCapacity;
     private double weight;
+    private double fuelCapacity;
 }

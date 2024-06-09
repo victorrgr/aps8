@@ -60,9 +60,12 @@ public class ReportController {
                 .distance(trip.getDistance())
                 .fuelEfficiency(fuelEfficiency)
                 .co2Emission(trip.getFuelAmount() * emissionFactor)
-                .oilResidue(trip.getDistance() / vehicle.getOilChangeInterval())
+                .oilResidue((trip.getDistance() / vehicle.getOilChangeInterval()) * vehicle.getOilCapacity())
+                .tireResidue((trip.getDistance() / vehicle.getTireChangeInterval()) * vehicle.getTireCapacity())
+                .batteryResidue((trip.getDistance() / vehicle.getBatteryChangeInterval()) * vehicle.getBatteryCapacity())
                 .oilType(vehicle.getOilType())
                 .tripsAmount(trips.size())
+                .emissionFactor(emissionFactor)
                 .build();
     }
 
