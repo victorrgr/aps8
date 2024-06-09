@@ -18,5 +18,4 @@ public class FuelType {
     private String name;
     private double emissionFactor;
     private EmissionFactorUnit emissionFactorUnit;
-    private Unit unit;
 }

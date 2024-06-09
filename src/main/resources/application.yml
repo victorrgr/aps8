@@ -10,6 +10,7 @@ spring:
     password: postgres
 
 application:
+  input-test-data: false
   default-password: admin
   security:
     jwt:
