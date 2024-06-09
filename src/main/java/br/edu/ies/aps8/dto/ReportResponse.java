@@ -2,7 +2,6 @@ package br.edu.ies.aps8.dto;
 
 import br.edu.ies.aps8.dto.vehicle.VehicleResponse;
 import br.edu.ies.aps8.model.OilType;
-import br.edu.ies.aps8.model.Vehicle;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
