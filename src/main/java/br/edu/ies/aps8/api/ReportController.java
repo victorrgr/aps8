@@ -2,6 +2,7 @@ package br.edu.ies.aps8.api;
 
 import br.edu.ies.aps8.dto.RawReportResponse;
 import br.edu.ies.aps8.dto.ReportResponse;
+import br.edu.ies.aps8.mapper.VehicleMapper;
 import br.edu.ies.aps8.model.*;
 import br.edu.ies.aps8.repository.TripRepository;
 import br.edu.ies.aps8.util.ConversionService;
@@ -22,9 +23,9 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ReportController {
     private final TripRepository tripRepository;
+    private final VehicleMapper vehicleMapper;
     private final ConversionService conversionService;
 
-    // TODO: Maybe create a filter to limit the start and end date
     @GetMapping
     public List<ReportResponse> getReport() {
         List<Trip> trips = tripRepository.findAllOrderByDateAsc();
@@ -53,7 +54,7 @@ public class ReportController {
         double emissionFactor = conversionService.convert(fuelType.getEmissionFactor(), fuelType.getEmissionFactorUnit().getUnit(), Unit.LITER);
         double fuelEfficiency = trip.getDistance() / trip.getFuelAmount();
         return ReportResponse.builder()
-                .vehicle(vehicle)
+                .vehicle(vehicleMapper.mapToResponse(vehicle))
                 .startDate(trips.getFirst().getDate())
                 .endDate(trips.getLast().getDate())
                 .fuelAmount(trip.getFuelAmount())

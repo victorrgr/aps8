@@ -15,12 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReportResponse {
-    private Vehicle vehicle;
-    private double fuelAmount;
-    private double distance;
-    private double fuelEfficiency;
-    private double co2Emission;
-    private double oilResidue;
+    private VehicleResponse vehicle;
     private int tripsAmount;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
@@ -30,6 +25,11 @@ public class ReportResponse {
     private String fuelEfficiencyStr;
     private String co2EmissionStr;
     private String oilResidueStr;
+    private double fuelAmount;
+    private double distance;
+    private double fuelEfficiency;
+    private double co2Emission;
+    private double oilResidue;
 
     public void calculateDescriptions() {
         this.fuelAmountStr = "%.2f L".formatted(this.getFuelAmount());
