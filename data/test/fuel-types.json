@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "name": "Gasoline",
+    "emissionFactor": 8.78,
+    "emissionFactorUnit": "KG_CO2_GAL"
+  },
+  {
+    "id": 2,
+    "name": "Diesel",
+    "emissionFactor": 10.21,
+    "emissionFactorUnit": "KG_CO2_GAL"
+  },
+  {
+    "id": 3,
+    "name": "Ethanol",
+    "emissionFactor": 5.75,
+    "emissionFactorUnit": "KG_CO2_GAL"
+  }
+]
