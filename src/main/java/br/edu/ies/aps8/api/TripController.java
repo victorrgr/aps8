@@ -2,9 +2,10 @@ package br.edu.ies.aps8.api;
 
 import br.edu.ies.aps8.dto.trip.TripRequest;
 import br.edu.ies.aps8.dto.trip.TripResponse;
+import br.edu.ies.aps8.mapper.TripMapper;
 import br.edu.ies.aps8.model.Trip;
 import br.edu.ies.aps8.repository.TripRepository;
-import br.edu.ies.aps8.repository.VehicleRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,35 +16,41 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TripController {
     private final TripRepository tripRepository;
-    private final VehicleRepository vehicleRepository;
+    private final TripMapper tripMapper;
 
-    private static TripResponse mapToResponse(Trip trip) {
-        return TripResponse.builder()
-                .id(trip.getId())
-                .fuelAmount(trip.getFuelAmount())
-                .distance(trip.getDistance())
-                .vehicle(trip.getVehicle())
-                .build();
+    @GetMapping("/{id}")
+    public TripResponse findById(@PathVariable Long id) {
+        return tripRepository.findById(id)
+                .map(tripMapper::mapToResponse)
+                .orElseThrow(() -> new IllegalArgumentException("Trip with id '%s' not found".formatted(id)));
     }
 
     @GetMapping
-    public List<TripResponse> trips() {
+    public List<TripResponse> findAll() {
         return tripRepository.findAll().stream()
-                .map(TripController::mapToResponse)
+                .map(tripMapper::mapToResponse)
                 .toList();
     }
 
     @PostMapping
-    public TripResponse addTrip(@RequestBody TripRequest tripRequest) {
-        Trip trip = Trip.builder()
-                .fuelAmount(tripRequest.getFuelAmount())
-                .distance(tripRequest.getDistance())
-                .vehicle(vehicleRepository.findById(tripRequest.getVehicleId())
-                        .orElseThrow(() -> new IllegalArgumentException("Vehicle not found")))
-                .build();
+    public TripResponse save(@Valid @RequestBody TripRequest tripRequest) {
+        Trip trip = tripMapper.mapToModel(tripRequest);
         trip = tripRepository.save(trip);
-        return mapToResponse(trip);
+        return tripMapper.mapToResponse(trip);
     }
 
+    @PostMapping("/batch")
+    public List<TripResponse> saveBatch(@RequestBody List<TripRequest> tripRequests) {
+        return tripRequests.stream()
+                .map(this::save)
+                .toList();
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        Trip trip = tripRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Trip with id '%s' not found".formatted(id)));
+        tripRepository.delete(trip);
+    }
 
 }

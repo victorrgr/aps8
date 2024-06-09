@@ -1,0 +1,72 @@
+[
+    {
+        "id": 1,
+        "fuelAmount": 50.0,
+        "distance": 300.0,
+        "date": "2024-06-07T14:00:00",
+        "vehicleId": 1
+    },
+    {
+        "id": 2,
+        "fuelAmount": 45.0,
+        "distance": 250.0,
+        "date": "2024-06-08T09:30:00",
+        "vehicleId": 2
+    },
+    {
+        "id": 3,
+        "fuelAmount": 60.0,
+        "distance": 400.0,
+        "date": "2024-06-09T16:45:00",
+        "vehicleId": 3
+    },
+    {
+        "id": 4,
+        "fuelAmount": 55.0,
+        "distance": 350.0,
+        "date": "2024-06-10T11:15:00",
+        "vehicleId": 4
+    },
+    {
+        "id": 5,
+        "fuelAmount": 30.0,
+        "distance": 180.0,
+        "date": "2024-06-11T08:00:00",
+        "vehicleId": 1
+    },
+    {
+        "id": 6,
+        "fuelAmount": 40.0,
+        "distance": 220.0,
+        "date": "2024-06-12T13:30:00",
+        "vehicleId": 2
+    },
+    {
+        "id": 7,
+        "fuelAmount": 70.0,
+        "distance": 450.0,
+        "date": "2024-06-13T15:00:00",
+        "vehicleId": 3
+    },
+    {
+        "id": 8,
+        "fuelAmount": 65.0,
+        "distance": 370.0,
+        "date": "2024-06-14T10:30:00",
+        "vehicleId": 4
+    },
+    {
+        "id": 9,
+        "fuelAmount": 35.0,
+        "distance": 210.0,
+        "date": "2024-06-15T12:45:00",
+        "vehicleId": 1
+    },
+    {
+        "id": 10,
+        "fuelAmount": 50.0,
+        "distance": 300.0,
+        "date": "2024-06-16T17:00:00",
+        "vehicleId": 2
+    }
+]

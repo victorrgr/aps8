@@ -4,11 +4,8 @@ import lombok.Getter;
 
 @Getter
 public enum Unit {
-    KG("kg"),
-    LITER("L"),
-    CUBIC_METER("m³"),
-    MEGA_JOULE("MJ"),
-    MILLION_BRITISH_THERMAL_UNIT("MMBtu");
+    GALLON("gal"),
+    LITER("L");
 
     private final String symbol;
 
